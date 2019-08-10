@@ -36,7 +36,6 @@ def line_plot3d(coord,step,method=0):
             # plt.xlim((-3,3))
             # plt.ylim((-3,3))
            #  ax.set_zlim3d(-2,2)
-            geometry(ax)
             # ax.legend()
         plt.show()
     if method==1:

@@ -31,9 +31,22 @@ def tokamak(x,y,z):
 def uniform(x,y,z):
     return 0,0,B0
 
+def grad_B(x,y,z):
+    return 0,0,B0*y*0.02+B0
+
+def curvature_B(x,y,z):
+    a=R(x,y,z)
+    B0=10/a
+    return B0*(y/a),B0*(-x/a),0 
+
+
 
 if B_type==0:
     B_distribution=uniform
+if B_type==1:
+    B_distribution=grad_B
+if B_type==2:
+    B_distribution=curvature_B
 else:
     B_distribution=tokamak
 
