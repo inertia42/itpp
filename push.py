@@ -1,5 +1,6 @@
 import numpy as np
 from B_distribution import *
+from E_distribution import *
 #from module import *
 from scipy.integrate import odeint
 
@@ -51,16 +52,26 @@ def euler1(x0,y0,z0,vx0,vy0,vz0):
     E=np.sqrt(np.array(vx)**2+np.array(vy)**2+np.array(vz)**2)
     return xt,yt,zt,E
 
-def equation(init,t):  # forrmulation
+def equation(init,t):  # formulation
     x,y,z,vx,vy,vz=init
     def BB():
         Bx,By,Bz=B_distribution(x,y,z)
         return [vx,vy,vz,q_m*(vy*Bz-vz*By),q_m*(vz*Bx-vx*Bz),q_m*(vx*By-vy*Bx)]
     return BB()
-
+        
+def equationE(init,t):
+    x,y,z,vx,vy,vz=init
+    def BE():
+        Bx,By,Bz=B_distribution(x,y,z)
+        Ex,Ey,Ez=E_distribution(x,y,z)
+        return [vx,vy,vz,q_m*(Ex+vy*Bz-vz*By),q_m*(Ey+vz*Bx-vx*Bz),q_m*(Ez+vx*By-vy*Bx)]
+    return BE()
 def oden(x0,y0,z0,vx0,vy0,vz0):
     t=dt*np.array(range(nt))
-    trace=odeint(equation,[x0,y0,z0,vx0,vy0,vz0],t)
+    if magnetic==0:
+        trace=odeint(equation,[x0,y0,z0,vx0,vy0,vz0],t)
+    elif magnetic==1:
+        trace=odeint(equationE,[x0,y0,z0,vx0,vy0,vz0],t)
     return trace
 
 def boris(x0,y0,z0,vx0,vy0,vz0):

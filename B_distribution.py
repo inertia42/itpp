@@ -43,9 +43,9 @@ def curvature_B(x,y,z):
 
 if B_type==0:
     B_distribution=uniform
-if B_type==1:
+elif B_type==1:
     B_distribution=grad_B
-if B_type==2:
+elif B_type==2:
     B_distribution=curvature_B
 else:
     B_distribution=tokamak
